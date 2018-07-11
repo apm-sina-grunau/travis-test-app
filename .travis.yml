@@ -15,10 +15,9 @@ android:
     - extra
 
 deploy:
-  if: branch = master
   provider: releases
   api_key: $GITHUB_TOKEN
   file: "app/build/outputs/apk/debug/app-debug.apk"
   skip_cleanup: true
   on:
-    all_branches: true
+    branch: master
