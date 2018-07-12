@@ -1,7 +1,7 @@
 language: android
 
 script:
-    - ./gradlew assembleDebug
+    - ./gradlew build
 
 android:
   components:
