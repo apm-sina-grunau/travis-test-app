@@ -1,7 +1,22 @@
 language: android
 
-script:
-    - ./gradlew assembleDebug
+stages:
+  - name: developBuild
+    if: branch = develop
+  - name: developRelease
+    if: branch = master
+  - name: deploy
+    if: branch = master
+
+
+jobs:
+  include:
+    - stage: developBuild
+      script: ./gradlew assembleDebug
+    - stage: developRelease
+      script: ./gradlew assembleRelease
+    - stage: deploy
+      script: ./deploy
 
 android:
   components:
@@ -17,7 +32,8 @@ android:
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: "app/build/outputs/apk/debug/app-debug.apk"
+  file_glob: true
+  file: "app/build/outputs/apk/**/*.apk"
   skip_cleanup: true
   on:
     branch: master
