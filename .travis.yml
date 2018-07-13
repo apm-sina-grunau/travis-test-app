@@ -1,9 +1,9 @@
 language: android
 
 stages:
-  - developBuild
+  - name: developBuild
     if: branch = develop
-  - developRelease
+  - name: developRelease
     if: branch = master
   - name: deploy
     if: branch = master
