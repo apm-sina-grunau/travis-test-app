@@ -1,7 +1,22 @@
 language: android
 
-script:
-    - ./gradlew build
+stages:
+  - developBuild
+    if: branch = develop
+  - developRelease
+    if: branch = master
+  - name: deploy
+    if: branch = master
+
+
+jobs:
+  include:
+    - stage: developBuild
+      script: ./gradlew assembleDebug
+    - stage: developRelease
+      script: ./gradlew assembleRelease
+    - stage: deploy
+      script: ./deploy
 
 android:
   components:
@@ -21,4 +36,4 @@ deploy:
   file: "app/build/outputs/apk/**/*.apk"
   skip_cleanup: true
   on:
-    branch: develop
+    branch: master
